@@ -1,0 +1,218 @@
+# ============================================================================
+# Python Log Analyzer & Failure Classifier - Example Configuration
+# Validate this file with:
+#   log-analyzer validate-config --config config.example.toml
+# ============================================================================
+
+[general]
+# Default file encoding when reading raw log files
+encoding = "utf-8"
+# Whether to scan directories recursively by default
+recursive = true
+# Log format preference: "auto", "python", "iso", "jsonl", "syslog", "apache", "nginx", "custom"
+default_format = "auto"
+# Whether to deduplicate identical events across rotated log files
+deduplicate_rotated = true
+# Default top-N recurring error groups to display in reports
+top_n = 15
+# Minimum severity level treated as an error/failure for failure classification & anomaly spikes
+# Options: "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"
+failure_severity_threshold = "ERROR"
+
+[custom_parser]
+# Optional user-defined regex pattern used when format = "custom" or as fallback
+# Must include at least (?P<message>...) and optionally timestamp, severity, service, logger, error_code, request_id
+enabled = false
+pattern = '^(?P<timestamp>\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?)\s+\[(?P<severity>[A-Z]+)\]\s+\[(?P<service>[a-zA-Z0-9_.-]+)\]\s+(?P<message>.*)$'
+
+[filtering]
+# Known noisy message regex patterns to exclude from analysis
+exclude_patterns = [
+  "Healthcheck ping succeeded",
+  "Prometheus metrics scraped /metrics"
+]
+
+[security]
+# Redact sensitive values (tokens, passwords, API keys, emails) before writing any report or log
+enable_redaction = true
+# Protect CSV exports against spreadsheet formula injection (=, +, -, @)
+csv_formula_protection = true
+
+[[security.redaction_rules]]
+name = "jwt_token"
+pattern = '\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b'
+replacement = "[REDACTED_JWT]"
+
+[[security.redaction_rules]]
+name = "bearer_token"
+pattern = '(?i)\bBearer\s+[A-Za-z0-9._~+/-]+=*'
+replacement = "Bearer [REDACTED_TOKEN]"
+
+[[security.redaction_rules]]
+name = "api_key_or_secret"
+pattern = '''(?i)\b(?:api[_-]?key|secret[_-]?key|access[_-]?token|auth[_-]?token|client[_-]?secret)\s*[:=]\s*["']?[A-Za-z0-9_\-./+=]{6,}["']?'''
+replacement = "[REDACTED_SECRET]"
+
+[[security.redaction_rules]]
+name = "aws_access_key"
+pattern = '\b(?:AKIA|ASIA)[0-9A-Z]{16}\b'
+replacement = "[REDACTED_AWS_KEY]"
+
+[[security.redaction_rules]]
+name = "password_assignment"
+pattern = '''(?i)\b(?:password|passwd|pwd|db_pass)\s*[:=]\s*["']?[^\s"',;)]+["']?'''
+replacement = "password=[REDACTED_PASSWORD]"
+
+[[security.redaction_rules]]
+name = "uri_credentials"
+pattern = '(?i)\b([a-z][a-z0-9+.-]*://[^/\s:@]+):([^@\s/]+)@'
+replacement = '\1:[REDACTED_PASSWORD]@'
+
+[[security.redaction_rules]]
+name = "email_address"
+pattern = '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
+replacement = "[REDACTED_EMAIL]"
+
+[fingerprinting]
+# Ordered variable masking rules to group recurring errors accurately without merging distinct bugs
+mask_uuids = true
+mask_request_ids = true
+mask_timestamps = true
+mask_ip_addresses = true
+mask_hex_addresses = true
+mask_numbers = true
+mask_durations = true
+
+[[fingerprinting.custom_masks]]
+name = "session_token"
+pattern = '\bsess_[a-zA-Z0-9]{8,}\b'
+placeholder = "<SESSION_ID>"
+
+[anomaly_detection]
+# Time bucket size for aggregation: "1min", "5min", "15min", "1h", "1d"
+time_window = "5min"
+# Rolling window size (in number of time buckets) for local baseline calculations
+rolling_window_buckets = 6
+# Minimum number of non-empty or total historical buckets required for statistical anomaly detection
+min_history_buckets = 6
+# Minimum error count in a bucket required before any alert (threshold or statistical) can fire
+min_spike_count = 8
+# Confirmed absolute threshold per time bucket (triggers confirmed_threshold alert)
+absolute_threshold = 25
+# Minimum ratio over baseline (count / max(baseline, 1.0)) to flag a ratio spike
+ratio_threshold = 3.0
+# Robust Median / MAD modified Z-score threshold for statistical anomaly indicators
+mad_z_threshold = 3.5
+
+# ============================================================================
+# Deterministic Rule-Based Error Classification Rules
+# Evaluated in priority order (lowest priority number = evaluated first)
+# ============================================================================
+
+[[classification.rules]]
+id = "database_error"
+name = "Database Errors"
+priority = 10
+severity_override = ""
+patterns = [
+  '(?i)\b(?:psycopg2|sqlalchemy|sqlite3|pymysql|asyncpg|mongodb|redis)\b.*\b(?:error|exception|failed|refused|timeout|deadlock|locked)\b',
+  '(?i)\b(?:database|db)\b.*\b(?:error|failed|failure|connection refused|pool exhausted|deadlock|lock wait timeout|syntax error|operationalerror|integrityerror|interfaceerror|too many connections)\b',
+  '(?i)\b(?:SQLSTATE|ORA-\d{5}|OperationalError|IntegrityError|DatabaseError|DataError|ProgrammingError)\b',
+  '(?i)\bfatal:\s+remaining connection slots are reserved\b',
+  '(?i)\bconnection to server at .* port 5432 failed\b'
+]
+investigation_hint = "Verify database instance health, connection pool limits, active locks/long-running queries, and network ACLs between the application and database."
+
+[[classification.rules]]
+id = "timeout_error"
+name = "Timeout Errors"
+priority = 20
+severity_override = ""
+patterns = [
+  '(?i)\b(?:TimeoutError|ReadTimeout|ConnectTimeout|GatewayTimeout| SocketTimeoutException|DeadlineExceeded)\b',
+  '(?i)\b(?:timed out|request timeout|read timeout|connect timeout|upstream timed out|gateway time-out|operation timed out|execution expired)\b',
+  '(?i)\bETIMEDOUT\b'
+]
+investigation_hint = "Check upstream service latency, timeout settings vs SLA budgets, thread/worker saturation, and slow external API calls."
+
+[[classification.rules]]
+id = "auth_error"
+name = "Authentication & Authorization Failures"
+priority = 30
+severity_override = ""
+patterns = [
+  '(?i)\b(?:authentication failed|invalid credentials|unauthorized|forbidden|access denied|permission denied for user|invalid token|jwt expired|token expired|signature verification failed)\b',
+  '(?i)\b(?:AuthError|AuthenticationError|AuthorizationError|InvalidTokenError|TokenExpiredError)\b',
+  '(?i)\bHTTP\s+(?:401|403)\b|\bstatus(?:_code)?\s*[=:]\s*(?:401|403)\b'
+]
+investigation_hint = "Inspect identity provider status, rotated API keys/certificates, clock skew affecting JWT expiration, or brute-force login attempts."
+
+[[classification.rules]]
+id = "network_error"
+name = "Network & Connection Failures"
+priority = 40
+severity_override = ""
+patterns = [
+  '(?i)\b(?:ConnectionRefusedError|ConnectionResetError|ConnectionAbortedError|BrokenPipeError|gaierror|SSLError|CertificateError)\b',
+  '(?i)\b(?:connection refused|connection reset by peer|broken pipe|name or service not known|temporary failure in name resolution|no route to host|network is unreachable|ssl handshake failed|tlsv1 alert)\b',
+  '(?i)\b(?:ECONNREFUSED|ECONNRESET|EHOSTUNREACH|ENETUNREACH|EPIPE)\b'
+]
+investigation_hint = "Check DNS resolution, target service availability, firewall/security group rules, TLS certificate validity, and load balancer health."
+
+[[classification.rules]]
+id = "filesystem_error"
+name = "File System & Permission Errors"
+priority = 50
+severity_override = ""
+patterns = [
+  '(?i)\b(?:FileNotFoundError|PermissionError|FileExistsError|IsADirectoryError|NotADirectoryError|DiskFullError|IOError)\b',
+  '(?i)\b(?:no such file or directory|permission denied|read-only file system|no space left on device|disk quota exceeded|too many open files)\b',
+  '(?i)\b(?:ENOENT|EACCES|EPERM|ENOSPC|EMFILE|ENFILE|EROFS)\b'
+]
+investigation_hint = "Check disk usage (df -h / inode utilization), file ownership and chmod permissions, open file descriptor limits (ulimit -n), and mount status."
+
+[[classification.rules]]
+id = "resource_exhaustion"
+name = "Resource Exhaustion"
+priority = 60
+severity_override = ""
+patterns = [
+  '(?i)\b(?:MemoryError|OutOfMemoryError|OOMKilled|ResourceExhaustedError|QueueFull)\b',
+  '(?i)\b(?:out of memory|cannot allocate memory|memory limit exceeded|cpu throttling|thread pool exhausted|worker pool full|rate limit exceeded|too many requests)\b',
+  '(?i)\bENOMEM\b'
+]
+investigation_hint = "Inspect container/host memory limits, heap allocations for leaks, worker queue backlog, and rate-limiting thresholds."
+
+[[classification.rules]]
+id = "api_http_error"
+name = "API / HTTP Failures"
+priority = 70
+severity_override = ""
+patterns = [
+  '(?i)\b(?:HTTPError|BadGateway|ServiceUnavailable|ClientResponseError|RequestException)\b',
+  '(?i)\b(?:HTTP/\d\.\d["\s]+5\d\d|HTTP\s+5\d\d|status(?:_code)?\s*[=:]\s*5\d\d|500 Internal Server Error|502 Bad Gateway|503 Service Unavailable|504 Gateway Timeout|429 Too Many Requests)\b',
+  '(?i)\b(?:upstream prematurely closed connection|invalid response from upstream|webhook delivery failed)\b'
+]
+investigation_hint = "Review upstream API status pages, HTTP 5xx/429 response bodies, retry/backoff policies, and reverse proxy error logs."
+
+[[classification.rules]]
+id = "configuration_error"
+name = "Configuration Errors"
+priority = 80
+severity_override = ""
+patterns = [
+  '(?i)\b(?:ConfigurationError|ConfigError|ImproperlyConfigured|MissingEnvironmentVariable|ValidationError)\b',
+  '(?i)\b(?:missing required environment variable|invalid configuration|unrecognized setting|failed to load config|schema validation failed|malformed configuration)\b'
+]
+investigation_hint = "Validate environment variables, deployment secrets/ConfigMaps, and TOML/YAML/JSON syntax against the application configuration schema."
+
+[[classification.rules]]
+id = "application_exception"
+name = "Application Exceptions"
+priority = 90
+severity_override = ""
+patterns = [
+  '(?i)\b(?:Traceback \(most recent call last\)|KeyError|ValueError|TypeError|AttributeError|IndexError|ZeroDivisionError|AssertionError|RuntimeError|NameError|ImportError|ModuleNotFoundError|NullPointerException|UnhandledPromiseRejection)\b',
+  '(?i)\b(?:unhandled exception|uncaught exception|segmentation fault|panic:)\b'
+]
+investigation_hint = "Examine the stack trace filename and line number, inspect recent code deployments, and add input validation or defensive guards around the failing call."

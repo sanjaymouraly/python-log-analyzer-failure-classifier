@@ -1,0 +1,252 @@
+2026-10-16 08:40:03,621 - catalog.api - DEBUG - [req-1120] (handlers.py:54) Cache lookup hit for product_id=100 in 2.4ms
+2026-10-16 08:40:40,193 - catalog.api - INFO - [req-1121] (handlers.py:88) Processed GET /v1/products/201 HTTP 200 in 13ms
+2026-10-16 08:41:05,981 - catalog.api - INFO - [req-1122] (handlers.py:88) Processed GET /v1/products/202 HTTP 200 in 14ms
+2026-10-16 08:41:38,256 - catalog.api - INFO - [req-1123] (handlers.py:88) Processed GET /v1/products/203 HTTP 200 in 15ms
+2026-10-16 08:42:11,911 - catalog.api - DEBUG - [req-1124] (handlers.py:54) Cache lookup hit for product_id=104 in 2.4ms
+2026-10-16 08:42:47,710 - catalog.api - INFO - [req-1125] (handlers.py:88) Processed GET /v1/products/205 HTTP 200 in 17ms
+2026-10-16 08:43:14,494 - catalog.api - INFO - [req-1126] (handlers.py:88) Processed GET /v1/products/206 HTTP 200 in 18ms
+2026-10-16 08:43:51,710 - catalog.api - INFO - [req-1127] (handlers.py:88) Processed GET /v1/products/207 HTTP 200 in 19ms
+2026-10-16 08:45:08,641 - catalog.api - DEBUG - [req-1135] (handlers.py:54) Cache lookup hit for product_id=100 in 2.4ms
+2026-10-16 08:45:37,666 - catalog.api - INFO - [req-1136] (handlers.py:88) Processed GET /v1/products/201 HTTP 200 in 13ms
+2026-10-16 08:46:05,796 - catalog.api - INFO - [req-1137] (handlers.py:88) Processed GET /v1/products/202 HTTP 200 in 14ms
+2026-10-16 08:46:38,798 - catalog.api - INFO - [req-1138] (handlers.py:88) Processed GET /v1/products/203 HTTP 200 in 15ms
+2026-10-16 08:47:17,868 - catalog.api - DEBUG - [req-1139] (handlers.py:54) Cache lookup hit for product_id=104 in 2.4ms
+2026-10-16 08:47:45,887 - catalog.api - INFO - [req-1140] (handlers.py:88) Processed GET /v1/products/205 HTTP 200 in 17ms
+2026-10-16 08:48:18,214 - catalog.api - INFO - [req-1141] (handlers.py:88) Processed GET /v1/products/206 HTTP 200 in 18ms
+2026-10-16 08:48:49,545 - catalog.api - INFO - [req-1142] (handlers.py:88) Processed GET /v1/products/207 HTTP 200 in 19ms
+2026-10-16 08:48:15,410 - catalog.api - ERROR - [req-1148] (pricing.py:203) Unhandled exception calculating discount for cart_id=7009 at 0x7f8a1c00090
+Traceback (most recent call last):
+  File "/srv/app/catalog/handlers.py", line 142, in compute_cart
+    total = apply_promo_tier(cart, tier_map)
+  File "/srv/app/catalog/pricing.py", line 203, in apply_promo_tier
+    multiplier = tier_map["enterprise_tier"]
+KeyError: 'enterprise_tier'
+2026-10-16 08:50:03,564 - catalog.api - DEBUG - [req-1149] (handlers.py:54) Cache lookup hit for product_id=100 in 2.4ms
+2026-10-16 08:50:33,839 - catalog.api - INFO - [req-1150] (handlers.py:88) Processed GET /v1/products/201 HTTP 200 in 13ms
+2026-10-16 08:51:09,612 - catalog.api - INFO - [req-1151] (handlers.py:88) Processed GET /v1/products/202 HTTP 200 in 14ms
+2026-10-16 08:51:39,619 - catalog.api - INFO - [req-1152] (handlers.py:88) Processed GET /v1/products/203 HTTP 200 in 15ms
+2026-10-16 08:52:10,991 - catalog.api - DEBUG - [req-1153] (handlers.py:54) Cache lookup hit for product_id=104 in 2.4ms
+2026-10-16 08:52:45,961 - catalog.api - INFO - [req-1154] (handlers.py:88) Processed GET /v1/products/205 HTTP 200 in 17ms
+2026-10-16 08:53:21,723 - catalog.api - INFO - [req-1155] (handlers.py:88) Processed GET /v1/products/206 HTTP 200 in 18ms
+2026-10-16 08:53:48,256 - catalog.api - INFO - [req-1156] (handlers.py:88) Processed GET /v1/products/207 HTTP 200 in 19ms
+2026-10-16 08:50:05,000 - catalog.db - CRITICAL - [req-1164] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 1)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:50:13,017 - catalog.db - CRITICAL - [req-1165] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 2)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:50:21,034 - catalog.db - CRITICAL - [req-1166] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 3)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:50:29,051 - catalog.db - CRITICAL - [req-1167] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 4)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:50:37,068 - catalog.db - CRITICAL - [req-1168] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 5)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:50:45,085 - catalog.db - CRITICAL - [req-1169] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 6)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:50:53,102 - catalog.db - CRITICAL - [req-1170] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 7)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:51:01,119 - catalog.db - CRITICAL - [req-1171] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 8)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:51:09,136 - catalog.db - CRITICAL - [req-1172] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 9)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:51:17,153 - catalog.db - CRITICAL - [req-1173] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 10)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:51:25,170 - catalog.db - CRITICAL - [req-1174] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 11)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:51:33,187 - catalog.db - CRITICAL - [req-1175] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 12)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:51:41,204 - catalog.db - CRITICAL - [req-1176] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 13)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:51:49,221 - catalog.db - CRITICAL - [req-1177] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 14)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:51:57,238 - catalog.db - CRITICAL - [req-1178] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 15)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:52:05,255 - catalog.db - CRITICAL - [req-1179] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 16)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:52:13,272 - catalog.db - CRITICAL - [req-1180] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 17)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:52:21,289 - catalog.db - CRITICAL - [req-1181] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 18)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:52:29,306 - catalog.db - CRITICAL - [req-1182] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 19)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:52:37,323 - catalog.db - CRITICAL - [req-1183] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 20)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:52:45,340 - catalog.db - CRITICAL - [req-1184] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 21)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:52:53,357 - catalog.db - CRITICAL - [req-1185] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 22)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:53:01,374 - catalog.db - CRITICAL - [req-1186] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 23)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:53:09,391 - catalog.db - CRITICAL - [req-1187] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 24)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:53:17,408 - catalog.db - CRITICAL - [req-1188] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 25)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:53:25,425 - catalog.db - CRITICAL - [req-1189] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 26)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:53:33,442 - catalog.db - CRITICAL - [req-1190] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 27)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:53:41,459 - catalog.db - CRITICAL - [req-1191] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 28)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:53:49,476 - catalog.db - CRITICAL - [req-1192] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 29)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:53:57,493 - catalog.db - CRITICAL - [req-1193] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 30)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:54:05,510 - catalog.db - CRITICAL - [req-1194] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 31)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:54:13,527 - catalog.db - CRITICAL - [req-1195] (db_pool.py:118) Database connection failed for postgres://db_admin:SuperSecretDbPass123!@10.0.8.50:5432/prod_catalog (SQLSTATE[08006] attempt 32)
+Traceback (most recent call last):
+  File "/srv/app/catalog/db_pool.py", line 118, in acquire_connection
+    conn = psycopg2.connect(dsn, connect_timeout=5)
+psycopg2.OperationalError: FATAL: remaining connection slots are reserved for non-replication superuser connections
+2026-10-16 08:55:06,880 - catalog.api - DEBUG - [req-1196] (handlers.py:54) Cache lookup hit for product_id=100 in 2.4ms
+2026-10-16 08:55:35,652 - catalog.api - INFO - [req-1197] (handlers.py:88) Processed GET /v1/products/201 HTTP 200 in 13ms
+2026-10-16 08:56:13,100 - catalog.api - INFO - [req-1198] (handlers.py:88) Processed GET /v1/products/202 HTTP 200 in 14ms
+2026-10-16 08:56:46,431 - catalog.api - INFO - [req-1199] (handlers.py:88) Processed GET /v1/products/203 HTTP 200 in 15ms
+2026-10-16 08:57:16,119 - catalog.api - DEBUG - [req-1200] (handlers.py:54) Cache lookup hit for product_id=104 in 2.4ms
+2026-10-16 08:57:42,471 - catalog.api - INFO - [req-1201] (handlers.py:88) Processed GET /v1/products/205 HTTP 200 in 17ms
+2026-10-16 08:58:17,345 - catalog.api - INFO - [req-1202] (handlers.py:88) Processed GET /v1/products/206 HTTP 200 in 18ms
+2026-10-16 08:58:45,346 - catalog.api - INFO - [req-1203] (handlers.py:88) Processed GET /v1/products/207 HTTP 200 in 19ms
+2026-10-16 08:58:15,410 - catalog.api - ERROR - [req-1209] (pricing.py:203) Unhandled exception calculating discount for cart_id=7011 at 0x7f8a1c000b0
+Traceback (most recent call last):
+  File "/srv/app/catalog/handlers.py", line 142, in compute_cart
+    total = apply_promo_tier(cart, tier_map)
+  File "/srv/app/catalog/pricing.py", line 203, in apply_promo_tier
+    multiplier = tier_map["enterprise_tier"]
+KeyError: 'enterprise_tier'
+2026-10-16 09:00:10,180 - catalog.api - DEBUG - [req-1210] (handlers.py:54) Cache lookup hit for product_id=100 in 2.4ms
+2026-10-16 09:00:34,849 - catalog.api - INFO - [req-1211] (handlers.py:88) Processed GET /v1/products/201 HTTP 200 in 13ms
+2026-10-16 09:01:12,935 - catalog.api - INFO - [req-1212] (handlers.py:88) Processed GET /v1/products/202 HTTP 200 in 14ms
+2026-10-16 09:01:38,878 - catalog.api - INFO - [req-1213] (handlers.py:88) Processed GET /v1/products/203 HTTP 200 in 15ms
+2026-10-16 09:02:17,884 - catalog.api - DEBUG - [req-1214] (handlers.py:54) Cache lookup hit for product_id=104 in 2.4ms
+2026-10-16 09:02:43,231 - catalog.api - INFO - [req-1215] (handlers.py:88) Processed GET /v1/products/205 HTTP 200 in 17ms
+2026-10-16 09:03:20,662 - catalog.api - INFO - [req-1216] (handlers.py:88) Processed GET /v1/products/206 HTTP 200 in 18ms
+2026-10-16 09:03:47,371 - catalog.api - INFO - [req-1217] (handlers.py:88) Processed GET /v1/products/207 HTTP 200 in 19ms
+2026-10-16 09:05:09,993 - catalog.api - DEBUG - [req-1225] (handlers.py:54) Cache lookup hit for product_id=100 in 2.4ms
+2026-10-16 09:05:42,533 - catalog.api - INFO - [req-1226] (handlers.py:88) Processed GET /v1/products/201 HTTP 200 in 13ms
+2026-10-16 09:06:08,652 - catalog.api - INFO - [req-1227] (handlers.py:88) Processed GET /v1/products/202 HTTP 200 in 14ms
+2026-10-16 09:06:40,830 - catalog.api - INFO - [req-1228] (handlers.py:88) Processed GET /v1/products/203 HTTP 200 in 15ms
+2026-10-16 09:07:13,508 - catalog.api - DEBUG - [req-1229] (handlers.py:54) Cache lookup hit for product_id=104 in 2.4ms
+2026-10-16 09:07:46,548 - catalog.api - INFO - [req-1230] (handlers.py:88) Processed GET /v1/products/205 HTTP 200 in 17ms
+2026-10-16 09:08:21,562 - catalog.api - INFO - [req-1231] (handlers.py:88) Processed GET /v1/products/206 HTTP 200 in 18ms
+2026-10-16 09:08:46,353 - catalog.api - INFO - [req-1232] (handlers.py:88) Processed GET /v1/products/207 HTTP 200 in 19ms
+2026-10-16 09:08:15,410 - catalog.api - ERROR - [req-1238] (pricing.py:203) Unhandled exception calculating discount for cart_id=7013 at 0x7f8a1c000d0
+Traceback (most recent call last):
+  File "/srv/app/catalog/handlers.py", line 142, in compute_cart
+    total = apply_promo_tier(cart, tier_map)
+  File "/srv/app/catalog/pricing.py", line 203, in apply_promo_tier
+    multiplier = tier_map["enterprise_tier"]
+KeyError: 'enterprise_tier'
+2026-10-16 09:10:04,165 - catalog.api - DEBUG - [req-1240] (handlers.py:54) Cache lookup hit for product_id=100 in 2.4ms
+2026-10-16 09:10:38,121 - catalog.api - INFO - [req-1241] (handlers.py:88) Processed GET /v1/products/201 HTTP 200 in 13ms
+2026-10-16 09:11:14,667 - catalog.api - INFO - [req-1242] (handlers.py:88) Processed GET /v1/products/202 HTTP 200 in 14ms
+2026-10-16 09:11:40,702 - catalog.api - INFO - [req-1243] (handlers.py:88) Processed GET /v1/products/203 HTTP 200 in 15ms
+2026-10-16 09:12:12,107 - catalog.api - DEBUG - [req-1244] (handlers.py:54) Cache lookup hit for product_id=104 in 2.4ms
+2026-10-16 09:12:42,824 - catalog.api - INFO - [req-1245] (handlers.py:88) Processed GET /v1/products/205 HTTP 200 in 17ms
+2026-10-16 09:13:13,334 - catalog.api - INFO - [req-1246] (handlers.py:88) Processed GET /v1/products/206 HTTP 200 in 18ms
+2026-10-16 09:13:46,132 - catalog.api - INFO - [req-1247] (handlers.py:88) Processed GET /v1/products/207 HTTP 200 in 19ms
+2026-10-16 09:15:06,172 - catalog.api - DEBUG - [req-1255] (handlers.py:54) Cache lookup hit for product_id=100 in 2.4ms
+2026-10-16 09:15:41,343 - catalog.api - INFO - [req-1256] (handlers.py:88) Processed GET /v1/products/201 HTTP 200 in 13ms
+2026-10-16 09:16:09,785 - catalog.api - INFO - [req-1257] (handlers.py:88) Processed GET /v1/products/202 HTTP 200 in 14ms
+2026-10-16 09:16:44,319 - catalog.api - INFO - [req-1258] (handlers.py:88) Processed GET /v1/products/203 HTTP 200 in 15ms
+2026-10-16 09:17:17,235 - catalog.api - DEBUG - [req-1259] (handlers.py:54) Cache lookup hit for product_id=104 in 2.4ms
+2026-10-16 09:17:50,690 - catalog.api - INFO - [req-1260] (handlers.py:88) Processed GET /v1/products/205 HTTP 200 in 17ms
+2026-10-16 09:18:20,348 - catalog.api - INFO - [req-1261] (handlers.py:88) Processed GET /v1/products/206 HTTP 200 in 18ms
+2026-10-16 09:18:52,926 - catalog.api - INFO - [req-1262] (handlers.py:88) Processed GET /v1/products/207 HTTP 200 in 19ms
+2026-10-16 09:18:15,410 - catalog.api - ERROR - [req-1268] (pricing.py:203) Unhandled exception calculating discount for cart_id=7015 at 0x7f8a1c000f0
+Traceback (most recent call last):
+  File "/srv/app/catalog/handlers.py", line 142, in compute_cart
+    total = apply_promo_tier(cart, tier_map)
+  File "/srv/app/catalog/pricing.py", line 203, in apply_promo_tier
+    multiplier = tier_map["enterprise_tier"]
+KeyError: 'enterprise_tier'
